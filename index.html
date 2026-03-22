@@ -2,55 +2,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ULTIMATE SORRY EXPERIENCE 💖</title>
+<title>Ultimate Sorry Universe 💖</title>
 <style>
-body{margin:0;font-family:sans-serif;background:linear-gradient(135deg,#000,#1a1a1a);color:#fff;overflow:hidden;transition:0.5s}
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#000,#111);color:#fff;overflow:hidden}
 .screen{display:none;justify-content:center;align-items:center;height:100vh;flex-direction:column;text-align:center;padding:20px}
 .active{display:flex}
-h1{color:#ff4d6d}
-button{padding:12px 20px;border:none;border-radius:25px;margin:10px;background:#ff4d6d;color:#fff;cursor:pointer}
+h1{color:#ff4d6d;font-size:32px}
+button{padding:12px 20px;border:none;border-radius:25px;margin:10px;background:#ff4d6d;color:#fff;cursor:pointer;font-size:16px}
 #noBtn{position:absolute}
 .progress{position:fixed;top:0;left:0;height:6px;background:#ff4d6d;width:0%}
-.toggle{position:fixed;top:10px;right:10px}
+.card{background:#1a1a1a;padding:15px;border-radius:15px;margin:10px}
 </style>
 </head>
-<body><div class="progress" id="bar"></div>
-<button class="toggle" onclick="toggleTheme()">🌙</button><div class="screen active" id="intro">
+<body><div class="progress" id="bar"></div><!-- INTRO --><div class="screen active" id="intro">
 <h1>Meri Bhootni 👻❤️</h1>
-<p id="introText"></p>
-<button onclick="go('story1')">Start 💔</button>
-</div><div class="screen" id="story1">
-<p>Ek ladka tha... thoda stupid 😔</p>
-<button onclick="go('story2')">Next</button>
-</div><div class="screen" id="story2">
-<p>Usne apni sabse khas dost ko hurt kar diya 💔</p>
-<button onclick="go('game1')">Next</button>
-</div><div class="screen" id="game1">
+<p id="typing"></p>
+<button onclick="go('story1')">Start Journey 🚀</button>
+</div><!-- STORY SLIDES --><div class="screen" id="story1"><p>Ek ladka tha... thoda stupid 😔</p><button onclick="go('story2')">Next</button></div>
+<div class="screen" id="story2"><p>Usne apni best dost ko hurt kar diya 💔</p><button onclick="go('story3')">Next</button></div>
+<div class="screen" id="story3"><p>Par usse realise hua... wo sabse important hai ❤️</p><button onclick="go('game1')">Next</button></div><!-- GAME 1 --><div class="screen" id="game1">
 <h1>Game 1 🎮</h1>
-<p>5 baar Sorry dabao</p>
+<p>Sorry 5 baar dabao</p>
 <button onclick="g1()">Sorry 😭</button>
 <p id="g1s"></p>
-</div><div class="screen" id="game2">
+</div><!-- GAME 2 --><div class="screen" id="game2">
 <h1>Game 2 ❤️</h1>
 <p>Heart pakdo 7 baar</p>
 <div id="heart" onclick="g2()" style="position:absolute;font-size:30px">❤️</div>
 <p id="g2s"></p>
-</div><div class="screen" id="game3">
-<h1>Game 3 🎯</h1>
-<p>Right answer choose karo</p>
+</div><!-- GAME 3 MEMORY MATCH --><div class="screen" id="game3">
+<h1>Game 3 🧠</h1>
+<p>Click karo "Tu important hai"</p>
 <button onclick="correct()">Tu important hai ❤️</button>
-<button onclick="wrong()">Mujhe farak nahi 😒</button>
-</div><div class="screen" id="compliment">
+<button onclick="wrong()">Ignore karo 😒</button>
+</div><!-- COMPLIMENT WALL --><div class="screen" id="compliments">
 <h1>Reasons 💖</h1>
-<p>Tu cute hai 😌</p>
-<p>Tu best friend hai 💯</p>
-<p>Tu important hai ❤️</p>
+<div class="card">Tu cute hai 😌</div>
+<div class="card">Tu best friend hai 💯</div>
+<div class="card">Tu meri life me important hai ❤️</div>
 <button onclick="go('choice')">Next</button>
-</div><div class="screen" id="choice">
+</div><!-- FINAL CHOICE --><div class="screen" id="choice">
 <h1>Ab bata 😭</h1>
 <button onclick="win()">Theek hai 😊</button>
 <button id="noBtn" onmouseover="run()">Nahi 😒</button>
-</div><div class="screen" id="end">
+</div><!-- END --><div class="screen" id="end">
 <h1>YAYYY 😭❤️</h1>
 <p>Tu maan gayi 🥺</p>
 <p>Forever best friend 💯</p>
@@ -58,9 +53,9 @@ button{padding:12px 20px;border:none;border-radius:25px;margin:10px;background:#
 
 <script>
 
+// PROGRESS SYSTEM
 let progress=0;
-function updateBar(){progress+=15;bar.style.width=progress+'%'}
-
+function updateBar(){progress+=10;bar.style.width=progress+'%'}
 function go(id){
  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
  document.getElementById(id).classList.add('active');
@@ -69,19 +64,34 @@ function go(id){
 
 // GAME1
 let c1=0;
-function g1(){c1++;click.play();g1s.innerText='Sorry: '+c1;if(c1>=5)go('game2')}
+function g1(){
+ c1++; click.play();
+ g1s.innerText='Sorry count: '+c1;
+ if(c1>=5) go('game2');
+}
 
 // GAME2
 let c2=0;
-function g2(){c2++;click.play();g2s.innerText='Hearts: '+c2;moveHeart();if(c2>=7)go('game3')}
-function moveHeart(){heart.style.left=Math.random()*80+'vw';heart.style.top=Math.random()*80+'vh'}
+function g2(){
+ c2++; click.play();
+ g2s.innerText='Hearts: '+c2;
+ moveHeart();
+ if(c2>=7) go('game3');
+}
+function moveHeart(){
+ heart.style.left=Math.random()*80+'vw';
+ heart.style.top=Math.random()*80+'vh';
+}
 
 // GAME3
-function correct(){go('compliment')}
+function correct(){go('compliments')}
 function wrong(){alert('Galat 😡 dobara try karo')}
 
 // RUN BUTTON
-function run(){noBtn.style.left=Math.random()*300+'px';noBtn.style.top=Math.random()*300+'px'}
+function run(){
+ noBtn.style.left=Math.random()*300+'px';
+ noBtn.style.top=Math.random()*300+'px';
+}
 
 // WIN
 function win(){click.play();go('end')}
@@ -100,21 +110,11 @@ setInterval(()=>{
 // MUSIC
 window.onclick=()=>bg.play();
 
-// THEME TOGGLE
-function toggleTheme(){
- if(document.body.style.background.includes('#fff')){
-  document.body.style.background='linear-gradient(135deg,#000,#1a1a1a)';
- }else{
-  document.body.style.background='#fff';
-  document.body.style.color='#000';
- }
-}
-
-// TYPING INTRO
+// TYPING EFFECT
 let text="Mujhe sach me sorry bolna hai... tu meri sabse khas dost hai 😔";
 let i=0;
 function type(){
- if(i<text.length){introText.innerHTML+=text[i++];setTimeout(type,30)}
+ if(i<text.length){typing.innerHTML+=text[i++];setTimeout(type,30)}
 }
 type();
 
@@ -126,4 +126,4 @@ window.onload=()=>{
 }
 
 </script></body>
-</html>
+       </html>
