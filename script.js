@@ -8,7 +8,7 @@ app.innerHTML = `
 </div>
 
 <div class="screen" id="story">
-<p>Mujhse galti ho gayi... 😔</p>
+<p>Mujhse galti ho gayi 😔</p>
 <button onclick="go('game')">Next</button>
 </div>
 
@@ -65,7 +65,7 @@ function yes(){
   go('cartoon');
 }
 
-// flower scene
+// flower animation
 function flower(){
   let girl = document.getElementById("girl");
   let dialog = document.getElementById("dialog");
@@ -83,13 +83,17 @@ function flower(){
   },2500);
 }
 
-/* ================= 3D CINEMATIC ================= */
+/* ================= 3D FIXED ================= */
 
-document.getElementById("start3d").onclick = () => {
+document.getElementById("start3d").addEventListener("click", () => {
   init3D();
-};
+});
 
 function init3D(){
+
+  // remove old canvas
+  let old = document.querySelector("canvas");
+  if(old) old.remove();
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
@@ -169,7 +173,10 @@ function init3D(){
 
     if(state==="impact"){
       girl.material.color.set(0x00ff00);
-      camera.position.z -= 0.05;
+
+      if(camera.position.z > 6){
+        camera.position.z -= 0.05;
+      }
 
       if(Math.random()<0.3){
         createHeart();
@@ -182,4 +189,4 @@ function init3D(){
   }
 
   animate();
-}
+    }
