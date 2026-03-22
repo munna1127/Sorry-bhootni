@@ -1,80 +1,105 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultimate Sorry Cinematic 💔</title>
+<title>Sorry Bhootni 😂</title>
+
 <style>
-body{margin:0;font-family:sans-serif;background:#000;color:#fff;overflow:hidden}
-.slide{position:absolute;width:100%;height:100%;display:flex;justify-content:center;align-items:center;flex-direction:column;opacity:0;transition:1s}
-.active{opacity:1}
-h1{color:#ff4d6d}
-button{padding:12px 20px;border:none;border-radius:25px;background:#ff4d6d;color:#fff;margin-top:20px;cursor:pointer}
-.progress{position:absolute;top:0;left:0;height:5px;background:#ff4d6d;width:0%}
+body {
+  background: linear-gradient(135deg, #ff4e50, #fc913a);
+  text-align: center;
+  font-family: Arial;
+  color: white;
+}
+
+h1 {
+  margin-top: 50px;
+  font-size: 40px;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  margin: 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#yes {
+  background: green;
+  color: white;
+}
+
+#no {
+  background: red;
+  color: white;
+  position: absolute;
+}
+
+.game-box {
+  margin-top: 50px;
+}
+
+.hidden {
+  display: none;
+}
 </style>
 </head>
-<body><div class="progress" id="bar"></div><div class="slide active" id="s1">
-<h1>Meri Bhootni 👻❤️</h1>
-<p>Ek story jo sirf tere liye hai...</p>
-</div><div class="slide" id="s2">
-<p>Ek ladka tha... thoda sa stupid 😔</p>
-</div><div class="slide" id="s3">
-<p>Usne apni sabse special dost ko hurt kar diya 💔</p>
-</div><div class="slide" id="s4">
-<p>Usse tab samajh aaya... tu kitni important hai ❤️</p>
-</div><div class="slide" id="s5">
-<p>Usne socha... kaise manaun usko 😣</p>
-</div><div class="slide" id="s6">
-<p>Isliye ye choti si website banayi...</p>
-</div><div class="slide" id="s7">
-<h1>Please maaf kar de 😭</h1>
-<button onclick="accept()">Theek hai 😊</button>
-</div><audio id="bgm" src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav" loop></audio> <audio id="click" src="https://www2.cs.uic.edu/~i101/SoundFiles/taunt.wav"></audio>
+
+<body>
+
+<h1>Sorry Bhootni 😭💔</h1>
+
+<p>Mujhe maaf kar de na 🥺</p>
+
+<button id="yes">YES ❤️</button>
+<button id="no">NO 😡</button>
+
+<audio id="sound1" src="https://www.myinstants.com/media/sounds/troll.mp3"></audio>
+<audio id="sound2" src="https://www.myinstants.com/media/sounds/sad-violin.mp3"></audio>
+
+<div id="gameSection" class="hidden">
+  <h2>Mini Game 🎮</h2>
+  <p>Click the box!</p>
+  <button onclick="scoreGame()">Click Me</button>
+  <p id="score">Score: 0</p>
+</div>
 
 <script>
-let current=1;
-let total=7;
-let bar=document.getElementById("bar");
+let score = 0;
 
-function showSlide(n){
- document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
- document.getElementById('s'+n).classList.add('active');
- bar.style.width=((n/total)*100)+'%';
+// YES button
+document.getElementById("yes").onclick = function() {
+  document.getElementById("sound1").play();
+  alert("Awww ❤️ I love you 😂");
+  document.getElementById("gameSection").classList.remove("hidden");
+};
+
+// NO button bhaagega 😆
+document.getElementById("no").onmouseover = function() {
+  let x = Math.random() * window.innerWidth;
+  let y = Math.random() * window.innerHeight;
+
+  this.style.left = x + "px";
+  this.style.top = y + "px";
+};
+
+// Game function
+function scoreGame() {
+  score++;
+  document.getElementById("score").innerText = "Score: " + score;
+
+  if(score == 5){
+    alert("Pro Player 🔥");
+  }
 }
 
-setInterval(()=>{
- if(current<total){
-  current++;
-  showSlide(current);
- }
-},3000);
+// Sad sound on load
+window.onload = function() {
+  document.getElementById("sound2").play();
+};
+</script>
 
-// parallax hearts
-setInterval(()=>{
- let h=document.createElement('div');
- h.innerText='❤️';
- h.style.position='absolute';
- h.style.left=Math.random()*100+'vw';
- h.style.top='100vh';
- h.style.fontSize=(Math.random()*20+15)+'px';
- document.body.appendChild(h);
- setTimeout(()=>h.remove(),4000);
-},300);
-
-// background music autoplay fix
-window.onclick=()=>{
- document.getElementById('bgm').play();
-}
-
-function accept(){
- document.getElementById('click').play();
- document.body.innerHTML=`
- <div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;background:black;color:white">
- <div>
- <h1 style="color:#ff4d6d">Thank You 😭❤️</h1>
- <p>Tu meri duniya hai... gussa mat reh please 🥺</p>
- <p>Forever best friend 💯</p>
- </div>
- </div>`;
-}
-</script></body>
+</body>
 </html>
