@@ -1,70 +1,18 @@
-// ========================= // COMPLETE ULTRA PROJECT (2D + 3D + STORY + GAME) // =========================
-
-// ---------- index.html ----------
-
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultimate Sorry Universe 💖</title>
+<title>Sorry App ❤️</title>
 <link rel="stylesheet" href="style.css">
 </head>
-<body><div id="app"></div>
-<button id="start3d">🎬 3D Scene</button><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="script.js"></script></body>
-</html>// ---------- style.css ---------- body{margin:0;font-family:Arial;background:#000;color:#fff;overflow:hidden} .screen{display:none;justify-content:center;align-items:center;height:100vh;flex-direction:column;text-align:center} .active{display:flex} h1{color:#ff4d6d} button{padding:10px 20px;border:none;border-radius:20px;background:#ff4d6d;color:#fff;margin:10px;cursor:pointer} #noBtn{position:absolute} #start3d{position:absolute;bottom:20px;right:20px}
+<body>
 
-// ---------- script.js ---------- let app=document.getElementById("app");
+<div id="app"></div>
+<button id="start3d">🎬 3D Scene</button>
 
-app.innerHTML=`
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
 
-<div class="screen active" id="intro">
-<h1>Meri Bhootni 👻❤️</h1>
-<p>Ek special journey hai 😏</p>
-<button onclick="go('story')">Start</button>
-</div><div class="screen" id="story">
-<p>Maine galti ki... 😔</p>
-<button onclick="go('game')">Next</button>
-</div><div class="screen" id="game">
-<h1>Game 🎮</h1>
-<button onclick="clickSorry()">Sorry 😭</button>
-<p id="score"></p>
-</div><div class="screen" id="choice">
-<h1>Ab bata 😭</h1>
-<button onclick="yes()">Theek hai 😊</button>
-<button id="noBtn" onmouseover="run()">Nahi 😒</button>
-</div><div class="screen" id="cartoon">
-<h1>Scene 😳</h1>
-<div id="girl">😡</div>
-<p id="dialog">Gussa hu</p>
-<button onclick="flower()">🌹</button>
-</div><div class="screen" id="end">
-<h1>❤️ Happy Ending ❤️</h1>
-<p>Tu maan gayi 🥺</p>
-</div>
-`;let c=0; function clickSorry(){c++;score.innerText=c;if(c>=5)go('choice')} function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')} function run(){noBtn.style.left=Math.random()*300+'px';noBtn.style.top=Math.random()*300+'px'} function yes(){go('cartoon')}
-
-function flower(){ girl.innerText="😳"; dialog.innerText="Sach me?"; setTimeout(()=>{ girl.innerText="😊"; dialog.innerText="Theek hai ❤️"; },1000); setTimeout(()=>go('end'),2500); }
-
-// ===== 3D PART ===== document.getElementById("start3d").onclick=()=>{ init3D(); };
-
-function init3D(){ const scene=new THREE.Scene(); const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000); const renderer=new THREE.WebGLRenderer(); renderer.setSize(window.innerWidth,window.innerHeight); document.body.appendChild(renderer.domElement);
-
-const light=new THREE.PointLight(0xffffff,1); light.position.set(10,10,10); scene.add(light);
-
-const boy=new THREE.Mesh(new THREE.BoxGeometry(1,2,1),new THREE.MeshStandardMaterial({color:0x00ffcc})); boy.position.set(-5,1,0); scene.add(boy);
-
-const girl3=new THREE.Mesh(new THREE.BoxGeometry(1,2,1),new THREE.MeshStandardMaterial({color:0xff0000})); girl3.position.set(5,1,0); scene.add(girl3);
-
-const flower=new THREE.Mesh(new THREE.SphereGeometry(0.3),new THREE.MeshStandardMaterial({color:0xff4d6d})); flower.visible=false; scene.add(flower);
-
-camera.position.z=10;
-
-let state="walk";
-
-function animate(){ requestAnimationFrame(animate);
-
-if(state==="walk"){ if(boy.position.x<2) boy.position.x+=0.02; else {state="flower";flower.visible=true;flower.position.copy(boy.position)} }
-
-if(state==="flower"){ if(flower.position.x<girl3.position.x-1) flower.position.x+=0.05; else {girl3.material.color.set(0x00ff00);state="done"} }
-
-renderer.render(scene,camera); } animate(); }
+</body>
+</html>
