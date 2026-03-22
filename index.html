@@ -2,105 +2,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultimate Sorry 💔</title>
+<title>Ultimate Sorry Cinematic 💔</title>
 <style>
-body{margin:0;font-family:sans-serif;background:linear-gradient(135deg,#ff9a9e,#fad0c4);overflow:hidden}
-.container{background:#fff;padding:20px;border-radius:20px;max-width:420px;margin:auto;margin-top:30px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.2);position:relative}
-h1{color:#ff4d6d;animation:pulse 1s infinite}
-@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
-button{padding:10px 15px;border:none;border-radius:20px;margin:5px;cursor:pointer}
-#yesBtn{background:#ff4d6d;color:#fff}
-#noBtn{position:absolute;background:#ccc}
-.chat{background:#f1f1f1;border-radius:10px;padding:10px;margin-top:10px;text-align:left;height:120px;overflow:auto;font-size:14px}
-.msg{margin:5px 0}
-.me{color:#ff4d6d}
+body{margin:0;font-family:sans-serif;background:#000;color:#fff;overflow:hidden}
+.slide{position:absolute;width:100%;height:100%;display:flex;justify-content:center;align-items:center;flex-direction:column;opacity:0;transition:1s}
+.active{opacity:1}
+h1{color:#ff4d6d}
+button{padding:12px 20px;border:none;border-radius:25px;background:#ff4d6d;color:#fff;margin-top:20px;cursor:pointer}
+.progress{position:absolute;top:0;left:0;height:5px;background:#ff4d6d;width:0%}
 </style>
 </head>
-<body><div class="container">
-<h1 id="name">Meri Bhootni 👻❤️</h1><input type="text" placeholder="Uska naam likh" oninput="setName(this.value)"><p id="typing"></p><input type="file" accept="image/*" onchange="loadImage(event)">
-<img id="img" style="display:none;width:100%;border-radius:10px;margin-top:10px;"><textarea id="memory" placeholder="Yaad likh..."></textarea><div class="chat" id="chatBox"></div><p id="count"></p><button id="yesBtn" onclick="yesClick()">Theek hai 😊</button> <button id="noBtn" onmouseover="moveBtn()">Nahi 😒</button>
+<body><div class="progress" id="bar"></div><div class="slide active" id="s1">
+<h1>Meri Bhootni 👻❤️</h1>
+<p>Ek story jo sirf tere liye hai...</p>
+</div><div class="slide" id="s2">
+<p>Ek ladka tha... thoda sa stupid 😔</p>
+</div><div class="slide" id="s3">
+<p>Usne apni sabse special dost ko hurt kar diya 💔</p>
+</div><div class="slide" id="s4">
+<p>Usse tab samajh aaya... tu kitni important hai ❤️</p>
+</div><div class="slide" id="s5">
+<p>Usne socha... kaise manaun usko 😣</p>
+</div><div class="slide" id="s6">
+<p>Isliye ye choti si website banayi...</p>
+</div><div class="slide" id="s7">
+<h1>Please maaf kar de 😭</h1>
+<button onclick="accept()">Theek hai 😊</button>
+</div><audio id="bgm" src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav" loop></audio> <audio id="click" src="https://www2.cs.uic.edu/~i101/SoundFiles/taunt.wav"></audio>
 
-</div><!-- custom voice --><audio id="voice">
-<source src="https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav">
-</audio><script>
+<script>
+let current=1;
+let total=7;
+let bar=document.getElementById("bar");
 
-// name animation
-function setName(val){
- if(val) document.getElementById("name").innerText = val + " ❤️";
+function showSlide(n){
+ document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+ document.getElementById('s'+n).classList.add('active');
+ bar.style.width=((n/total)*100)+'%';
 }
 
-// typing
-let txt="Mujhse galti ho gayi... please gussa mat reh 🥺";
-let i=0;
-(function type(){
- if(i<txt.length){
-  document.getElementById("typing").innerHTML+=txt[i++];
-  setTimeout(type,40);
- }
-})();
-
-// chat
-let chat=["Tu gussa hai? 😔","Sorry yaar...","Sach me galti ho gayi","Tu important hai ❤️"];
-let ci=0;
 setInterval(()=>{
- if(ci<chat.length){
-  let d=document.createElement("div");
-  d.className="msg me";
-  d.innerText=chat[ci++];
-  chatBox.appendChild(d);
+ if(current<total){
+  current++;
+  showSlide(current);
  }
-},1500);
+},3000);
 
-// countdown
-let t=15;
+// parallax hearts
 setInterval(()=>{
- document.getElementById("count").innerText="Mana lo warna time khatam: "+t;
- t--;
-},1000);
+ let h=document.createElement('div');
+ h.innerText='❤️';
+ h.style.position='absolute';
+ h.style.left=Math.random()*100+'vw';
+ h.style.top='100vh';
+ h.style.fontSize=(Math.random()*20+15)+'px';
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),4000);
+},300);
 
-// move btn
-function moveBtn(){
- let b=noBtn;
- b.style.left=Math.random()*300+"px";
- b.style.top=Math.random()*300+"px";
+// background music autoplay fix
+window.onclick=()=>{
+ document.getElementById('bgm').play();
 }
 
-// image
-function loadImage(e){
- let img=document.getElementById("img");
- img.src=URL.createObjectURL(e.target.files[0]);
- img.style.display="block";
-}
-
-// mini game + voice
-let clicks=0;
-function yesClick(){
- clicks++;
- document.getElementById("voice").play();
- if(clicks<3){
- alert("Sach me maaf kiya? Ek baar aur dabao 😏");
- return;
- }
+function accept(){
+ document.getElementById('click').play();
  document.body.innerHTML=`
- <div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;">
+ <div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;background:black;color:white">
  <div>
- <h1 style="color:#ff4d6d">Finally 😭❤️</h1>
- <p>Ab kabhi gussa mat hona 😭</p>
- <p>I promise sudhar jaunga 💯</p>
+ <h1 style="color:#ff4d6d">Thank You 😭❤️</h1>
+ <p>Tu meri duniya hai... gussa mat reh please 🥺</p>
+ <p>Forever best friend 💯</p>
  </div>
  </div>`;
 }
-
-// hearts
-setInterval(()=>{
- let h=document.createElement("div");
- h.innerText="❤️";
- h.style.position="absolute";
- h.style.left=Math.random()*100+"vw";
- h.style.top="100vh";
- document.body.appendChild(h);
- setTimeout(()=>h.remove(),4000);
-},400);
-
 </script></body>
 </html>
