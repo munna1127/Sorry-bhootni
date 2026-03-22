@@ -2,117 +2,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ULTIMATE SORRY GAME 💀❤️</title>
+<title>ULTIMATE APOLOGY GAME 💖</title>
 <style>
-body{margin:0;font-family:sans-serif;background:#000;color:#fff;overflow:hidden}
-.screen{display:none;justify-content:center;align-items:center;height:100vh;flex-direction:column;text-align:center}
+body{margin:0;font-family:sans-serif;background:linear-gradient(135deg,#000,#1a1a1a);color:#fff;overflow:hidden}
+.screen{display:none;justify-content:center;align-items:center;height:100vh;flex-direction:column;text-align:center;padding:20px}
 .active{display:flex}
-button{padding:12px 20px;border:none;border-radius:25px;margin:10px;background:#ff4d6d;color:#fff;cursor:pointer}
 h1{color:#ff4d6d}
+button{padding:12px 20px;border:none;border-radius:25px;margin:10px;background:#ff4d6d;color:#fff;cursor:pointer;font-size:16px}
 #noBtn{position:absolute}
+.progress{position:fixed;top:0;left:0;height:6px;background:#ff4d6d;width:0%}
 </style>
 </head>
-<body><!-- SCREEN 1 --><div class="screen active" id="s1">
+<body><div class="progress" id="bar"></div><!-- INTRO --><div class="screen active" id="intro">
 <h1>Meri Bhootni 👻❤️</h1>
-<p>Ready ho ek journey ke liye? 😏</p>
-<button onclick="next(1)">Start</button>
-</div><!-- STORY --><div class="screen" id="s2">
+<p>Ye ek normal sorry nahi hai...</p>
+<p>Ye ek journey hai 😔</p>
+<button onclick="go('story1')">Start Journey 🚀</button>
+</div><!-- STORY --><div class="screen" id="story1">
 <p>Ek ladka tha... thoda stupid 😔</p>
-<button onclick="next(2)">Next</button>
-</div><div class="screen" id="s3">
+<button onclick="go('story2')">Next</button>
+</div><div class="screen" id="story2">
 <p>Usne apni sabse khas dost ko hurt kar diya 💔</p>
-<button onclick="next(3)">Next</button>
-</div><!-- GAME 1 CLICK --><div class="screen" id="g1">
+<button onclick="go('game1')">Next</button>
+</div><!-- GAME 1 --><div class="screen" id="game1">
 <h1>Game 1 🎮</h1>
-<p>3 baar click karo “Sorry”</p>
-<button onclick="clickGame()">Sorry 😭</button>
-<p id="score"></p>
-</div><!-- GAME 2 CATCH HEART --><div class="screen" id="g2">
+<p>5 baar “Sorry” click karo</p>
+<button onclick="g1()">Sorry 😭</button>
+<p id="g1s"></p>
+</div><!-- GAME 2 --><div class="screen" id="game2">
 <h1>Game 2 ❤️</h1>
-<p>Heart pakdo!</p>
-<div id="heart" onclick="catchHeart()" style="position:absolute;font-size:30px;">❤️</div>
-<p id="score2"></p>
-</div><!-- YES NO --><div class="screen" id="s4">
+<p>Heart pakdo 7 baar</p>
+<div id="heart" onclick="g2()" style="position:absolute;font-size:30px">❤️</div>
+<p id="g2s"></p>
+</div><!-- QUIZ --><div class="screen" id="quiz">
+<h1>Final Test 😏</h1>
+<p>Kya wo important hai?</p>
+<button onclick="right()">Haan ❤️</button>
+<button onclick="wrong()">Nahi 😒</button>
+</div><!-- FINAL CHOICE --><div class="screen" id="choice">
 <h1>Ab bata 😭</h1>
 <button onclick="win()">Theek hai 😊</button>
-<button id="noBtn" onmouseover="moveNo()">Nahi 😒</button>
-</div><!-- FINAL --><div class="screen" id="final">
+<button id="noBtn" onmouseover="run()">Nahi 😒</button>
+</div><!-- END --><div class="screen" id="end">
 <h1>YAYYY 😭❤️</h1>
 <p>Tu maan gayi 🥺</p>
-<p>Best friend forever 💯</p>
+<p>Forever best friend 💯</p>
 </div><audio id="bg" src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav" loop></audio> <audio id="click" src="https://www2.cs.uic.edu/~i101/SoundFiles/taunt.wav"></audio>
 
 <script>
 
-function next(n){
- document.getElementById('s'+n).classList.remove('active');
- if(n==3){
-  document.getElementById('g1').classList.add('active');
- }else{
-  document.getElementById('s'+(n+1)).classList.add('active');
- }
+let progress=0;
+function updateBar(){
+ progress+=15;
+ document.getElementById('bar').style.width=progress+'%';
 }
 
-// GAME 1
-let c=0;
-function clickGame(){
- c++;
- document.getElementById('click').play();
- document.getElementById('score').innerText="Clicks: "+c;
- if(c>=3){
-  document.getElementById('g1').classList.remove('active');
-  document.getElementById('g2').classList.add('active');
- }
+function go(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ updateBar();
 }
 
-// GAME 2
+// GAME1
+let c1=0;
+function g1(){
+ c1++;
+ click.play();
+ g1s.innerText="Sorry count: "+c1;
+ if(c1>=5) go('game2');
+}
+
+// GAME2
 let c2=0;
-function catchHeart(){
+function g2(){
  c2++;
- document.getElementById('click').play();
- document.getElementById('score2').innerText="Caught: "+c2;
+ click.play();
+ g2s.innerText="Hearts: "+c2;
  moveHeart();
- if(c2>=5){
-  document.getElementById('g2').classList.remove('active');
-  document.getElementById('s4').classList.add('active');
- }
+ if(c2>=7) go('quiz');
 }
 
 function moveHeart(){
- let h=document.getElementById('heart');
- h.style.left=Math.random()*80+'vw';
- h.style.top=Math.random()*80+'vh';
+ heart.style.left=Math.random()*80+'vw';
+ heart.style.top=Math.random()*80+'vh';
 }
 
-// NO BUTTON RUN
-function moveNo(){
- let b=document.getElementById('noBtn');
- b.style.left=Math.random()*300+'px';
- b.style.top=Math.random()*300+'px';
+// QUIZ
+function right(){ go('choice'); }
+function wrong(){ alert('Galat answer 😡 dobara try karo'); }
+
+// RUN BUTTON
+function run(){
+ noBtn.style.left=Math.random()*300+'px';
+ noBtn.style.top=Math.random()*300+'px';
 }
 
 // WIN
 function win(){
- document.getElementById('click').play();
- document.getElementById('s4').classList.remove('active');
- document.getElementById('final').classList.add('active');
+ click.play();
+ go('end');
 }
 
-// AUTO HEARTS
+// HEART RAIN
 setInterval(()=>{
  let h=document.createElement('div');
- h.innerText='❤️';
+ h.innerText='💖';
  h.style.position='absolute';
  h.style.left=Math.random()*100+'vw';
  h.style.top='100vh';
  document.body.appendChild(h);
  setTimeout(()=>h.remove(),4000);
-},300);
+},200);
 
 // MUSIC START
-window.onclick=()=>{
- document.getElementById('bg').play();
+window.onclick=()=>bg.play();
+
+// SAVE PROGRESS (local storage)
+localStorage.setItem('sorry_progress', progress);
+
+// LOAD PROGRESS
+window.onload = () => {
+ let saved = localStorage.getItem('sorry_progress');
+ if(saved){
+  progress = parseInt(saved);
+  document.getElementById('bar').style.width = progress + '%';
+ }
+ bg.play().catch(()=>{});
 }
+
+// EXTRA: typing effect on intro
+let introText = "Tu meri sabse khas dost hai... aur mujhe sach me sorry bolna hai 😔";
+let idx=0;
+let introEl = document.querySelector('#intro p');
+introEl.innerHTML="";
+function typeIntro(){
+ if(idx < introText.length){
+  introEl.innerHTML += introText[idx++];
+  setTimeout(typeIntro,30);
+ }
+}
+typeIntro();
 
 </script></body>
 </html>
