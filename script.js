@@ -3,17 +3,18 @@ let app = document.getElementById("app");
 app.innerHTML = `
 <div class="screen active" id="intro">
 <h1>Meri Bhootni 👻❤️</h1>
-<p>Ek special journey hai 😏</p>
+<p>Mujhe tujhse kuch kehna hai 😔</p>
 <button onclick="go('story')">Start</button>
 </div>
 
 <div class="screen" id="story">
-<p>Mujhse galti ho gayi 😔</p>
+<p>Mujhse galti ho gayi... 😔</p>
 <button onclick="go('game')">Next</button>
 </div>
 
 <div class="screen" id="game">
 <h1>Game 🎮</h1>
+<p>5 baar Sorry dabao</p>
 <button onclick="clickSorry()">Sorry 😭</button>
 <p id="score"></p>
 </div>
@@ -25,8 +26,8 @@ app.innerHTML = `
 </div>
 
 <div class="screen" id="cartoon">
-<h1>Scene 😳</h1>
-<div id="girl" style="font-size:60px">😡</div>
+<h1>Scene 💖</h1>
+<div id="girl" class="avatar">😡</div>
 <p id="dialog">Gussa hu 😒</p>
 <button onclick="flower()">🌹 Phool do</button>
 </div>
@@ -51,19 +52,20 @@ function clickSorry(){
   if(c >= 5) go('choice');
 }
 
-// no button run
+// no button
 function run(){
   let btn = document.getElementById("noBtn");
   btn.style.left = Math.random()*300 + "px";
   btn.style.top = Math.random()*300 + "px";
 }
 
-// yes click
+// yes
 function yes(){
+  document.getElementById("voice").play();
   go('cartoon');
 }
 
-// flower animation
+// flower scene
 function flower(){
   let girl = document.getElementById("girl");
   let dialog = document.getElementById("dialog");
@@ -81,7 +83,7 @@ function flower(){
   },2500);
 }
 
-/* ================= 3D PART ================= */
+/* ================= 3D CINEMATIC ================= */
 
 document.getElementById("start3d").onclick = () => {
   init3D();
@@ -99,7 +101,7 @@ function init3D(){
     1000
   );
 
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
@@ -128,34 +130,56 @@ function init3D(){
   flower.visible = false;
   scene.add(flower);
 
-  camera.position.z = 10;
+  let hearts = [];
+
+  function createHeart(){
+    let h = new THREE.Mesh(
+      new THREE.SphereGeometry(0.1),
+      new THREE.MeshBasicMaterial({color:0xff4d6d})
+    );
+    h.position.set(girl.position.x,2,0);
+    scene.add(h);
+    hearts.push(h);
+  }
+
+  camera.position.set(0,3,12);
 
   let state = "walk";
 
   function animate(){
     requestAnimationFrame(animate);
 
-    if(state === "walk"){
+    if(state==="walk"){
       if(boy.position.x < 2){
         boy.position.x += 0.02;
       } else {
-        state = "flower";
-        flower.visible = true;
+        state="flower";
+        flower.visible=true;
         flower.position.copy(boy.position);
       }
     }
 
-    if(state === "flower"){
-      if(flower.position.x < girl.position.x - 1){
-        flower.position.x += 0.05;
+    if(state==="flower"){
+      if(flower.position.x < girl.position.x-1){
+        flower.position.x += 0.08;
       } else {
-        girl.material.color.set(0x00ff00);
-        state = "done";
+        state="impact";
       }
     }
 
-    renderer.render(scene, camera);
+    if(state==="impact"){
+      girl.material.color.set(0x00ff00);
+      camera.position.z -= 0.05;
+
+      if(Math.random()<0.3){
+        createHeart();
+      }
+
+      hearts.forEach(h=>h.position.y += 0.05);
+    }
+
+    renderer.render(scene,camera);
   }
 
   animate();
-    }
+}
